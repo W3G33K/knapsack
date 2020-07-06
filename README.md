@@ -39,9 +39,8 @@ _________________
 _________________
 
 6\) In your web browser, navigate to [http://whiskeybox.local/](http://whiskeybox.local/), *or if you skipped the fourth
-step*, navigate to [http://192.168.33.10/](http://192.168.33.10). You should be greeted with the 
-whiskeybox page that displays what software comes installed. Otherwise, recheck your steps to ensure you followed them
-correctly.
+step*, navigate to [http://192.168.33.10/](http://192.168.33.10). You should be greeted by the default CodeIgniter
+framework page. Otherwise, please recheck the steps to ensure you followed all of them correctly.
 _________________
 
 7\) Congratulations! Enjoy your shot of whiskey and may it fuel your journey towards developing impressively robust, and 

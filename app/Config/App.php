@@ -2,8 +2,7 @@
 
 use CodeIgniter\Config\BaseConfig;
 
-class App extends BaseConfig
-{
+class App extends BaseConfig {
 
 	/*
 	|--------------------------------------------------------------------------
@@ -21,7 +20,7 @@ class App extends BaseConfig
 	| environments.
 	|
 	*/
-	public $baseURL = 'http://localhost:8080/';
+	public $baseURL = 'http://whiskeybox.local/';
 
 	/*
 	|--------------------------------------------------------------------------
@@ -181,12 +180,12 @@ class App extends BaseConfig
 	| except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
 	|
 	*/
-	public $sessionDriver            = 'CodeIgniter\Session\Handlers\FileHandler';
-	public $sessionCookieName        = 'ci_session';
-	public $sessionExpiration        = 7200;
-	public $sessionSavePath          = WRITEPATH . 'session';
-	public $sessionMatchIP           = false;
-	public $sessionTimeToUpdate      = 300;
+	public $sessionDriver = 'CodeIgniter\Session\Handlers\FileHandler';
+	public $sessionCookieName = 'ci_session';
+	public $sessionExpiration = 7200;
+	public $sessionSavePath = WRITEPATH . 'session';
+	public $sessionMatchIP = false;
+	public $sessionTimeToUpdate = 300;
 	public $sessionRegenerateDestroy = false;
 
 	/*
@@ -204,10 +203,10 @@ class App extends BaseConfig
 	|       'cookie_httponly') will also affect sessions.
 	|
 	*/
-	public $cookiePrefix   = '';
-	public $cookieDomain   = '';
-	public $cookiePath     = '/';
-	public $cookieSecure   = false;
+	public $cookiePrefix = '';
+	public $cookieDomain = '';
+	public $cookiePath = '/';
+	public $cookieSecure = false;
 	public $cookieHTTPOnly = false;
 
 	/*
@@ -243,12 +242,12 @@ class App extends BaseConfig
 	| CSRFRegenerate  = Regenerate token on every submission
 	| CSRFRedirect    = Redirect to previous page with error on failure
 	*/
-	public $CSRFTokenName  = 'csrf_test_name';
+	public $CSRFTokenName = 'csrf_test_name';
 	public $CSRFHeaderName = 'X-CSRF-TOKEN';
 	public $CSRFCookieName = 'csrf_cookie_name';
-	public $CSRFExpire     = 7200;
+	public $CSRFExpire = 7200;
 	public $CSRFRegenerate = true;
-	public $CSRFRedirect   = true;
+	public $CSRFRedirect = true;
 
 	/*
 	|--------------------------------------------------------------------------

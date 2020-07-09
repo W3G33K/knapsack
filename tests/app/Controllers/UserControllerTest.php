@@ -3,7 +3,7 @@
 use CodeIgniter\Test\CIDatabaseTestCase;
 use CodeIgniter\Test\ControllerTester;
 
-class UserTest extends CIDatabaseTestCase {
+class UserControllerTest extends CIDatabaseTestCase {
 	use ControllerTester;
 
 	public function testTrue_isNotFalse(): void {

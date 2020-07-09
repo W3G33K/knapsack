@@ -1,94 +1,94 @@
 <?php namespace App\Entities;
 
-class User {
-	private $id;
-	private $email_address;
-	private $first_name;
-	private $last_name;
-	private $username;
-	private $password;
+use CodeIgniter\Entity;
 
-	/**
-	 * @return int
-	 */
-	public function getId(): int {
-		return $this->id;
-	}
-
-	/**
-	 * @param int $id
-	 */
-	public function setId(int $id): void {
-		$this->id = $id;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getEmailAddress(): string {
-		return $this->email_address;
-	}
-
-	/**
-	 * @param string $email_address
-	 */
-	public function setEmailAddress(string $email_address): void {
-		$this->email_address = $email_address;
-	}
+class User extends Entity {
+	protected $attributes = [
+		'id' => null,
+		'first_name' => null,
+		'last_name' => null,
+		'email_address' => null,
+		'username' => null,
+		'password' => null,
+	];
 
 	/**
 	 * @return string
 	 */
 	public function getFirstName(): string {
-		return $this->first_name;
+		return $this->attributes['first_name'];
 	}
 
 	/**
-	 * @param string $first_name
+	 * @param string $firstName
+	 * @return $this
 	 */
-	public function setFirstName(string $first_name): void {
-		$this->first_name = $first_name;
+	public function setFirstName(string $firstName): User {
+		$this->attributes['first_name'] = $firstName;
+		return $this;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getLastName(): string {
-		return $this->last_name;
+		return $this->attributes['last_name'];
 	}
 
 	/**
-	 * @param string $last_name
+	 * @param string $lastName
+	 * @return $this
 	 */
-	public function setLastName(string $last_name): void {
-		$this->last_name = $last_name;
+	public function setLastName(string $lastName): User {
+		$this->attributes['last_name'] = $lastName;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getEmailAddress(): string {
+		return $this->attributes['email_address'];
+	}
+
+	/**
+	 * @param string $emailAddress
+	 * @return $this
+	 */
+	public function setEmailAddress(string $emailAddress): User {
+		$this->attributes['email_address'] = $emailAddress;
+		return $this;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getUsername(): string {
-		return $this->username;
+		return $this->attributes['username'];
 	}
 
 	/**
 	 * @param string $username
+	 * @return $this
 	 */
-	public function setUsername(string $username): void {
-		$this->username = $username;
+	public function setUsername(string $username): User {
+		$this->attributes['username'] = $username;
+		return $this;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getPassword(): string {
-		return $this->password;
+		return $this->attributes['password'];
 	}
 
 	/**
 	 * @param string $password
+	 * @return $this
 	 */
-	public function setPassword(string $password): void {
-		$this->password = $password;
+	public function setPassword(string $password): User {
+		$this->attributes['password'] = password_hash($password, PASSWORD_BCRYPT);
+		return $this;
 	}
 }

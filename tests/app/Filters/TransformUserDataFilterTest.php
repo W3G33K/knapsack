@@ -1,6 +1,5 @@
 <?php namespace App\Filters;
 
-use App\Entities\User;
 use CodeIgniter\HTTP\IncomingRequest;
 use PHPUnit\Framework\TestCase;
 
@@ -27,13 +26,21 @@ class TransformUserDataFilterTest extends TestCase {
 					),
 					$this->logicalAnd(
 						$this->isType('array'),
-						$this->equalTo(['user' => new User([
-							'first_name' => 'Will',
-							'last_name' => 'Smith',
-							'email_address' => 'will@smith.co',
-							'username' => 'wsmith',
-							'password' => 'iforgot',
-						])])
+						$this->countOf(1),
+						$this->arrayHasKey('user'),
+						$this->callback(function($subject): bool {
+							$user = $subject['user'];
+							$userFirstName = $user->getFirstName();
+							$userLastName = $user->getLastName();
+							$userEmailAddress = $user->getEmailAddress();
+							$userUsername = $user->getUsername();
+							$userPassword = $user->getPassword();
+							return ($userFirstName === 'Will') &&
+								($userLastName === 'Smith') &&
+								($userEmailAddress === 'will@smith.co') &&
+								($userUsername === 'wsmith') &&
+								(password_verify('iforgot', $userPassword) === true);
+						})
 					)
 				);
 

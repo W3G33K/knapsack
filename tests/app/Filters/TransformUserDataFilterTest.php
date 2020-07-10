@@ -39,7 +39,7 @@ class TransformUserDataFilterTest extends TestCase {
 								($userLastName === 'Smith') &&
 								($userEmailAddress === 'will@smith.co') &&
 								($userUsername === 'wsmith') &&
-								(password_verify('iforgot', $userPassword) === true);
+								(strlen($userPassword) === 60); // BCRYPT algorithm always returns 60 character hash.
 						})
 					)
 				);

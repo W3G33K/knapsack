@@ -4,9 +4,20 @@ use App\Entities\User;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\Test\CIDatabaseTestCase;
 use CodeIgniter\Test\ControllerTester;
+use Config\Services;
 
 class UserControllerTest extends CIDatabaseTestCase {
 	use ControllerTester;
+
+	/**
+	 * @override
+	 */
+	protected function tearDown(): void {
+		parent::tearDown();
+
+		// Due to the way CI creates shared instances we must nullify the request in order to prevent test leakage.
+		Services::injectMock('request', null);
+	}
 
 	public function testUserRegistrationPage_returnsOkStatus(): void {
 		$baseUrl = base_url('/user/register');

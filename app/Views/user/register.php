@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-
+<?php
+	$errors = $errors ?? [];
+	$user = $user ?? new App\Entities\User();
+?>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8"/>
@@ -20,6 +23,34 @@
 		<link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900"/>
 		<link type="text/css" rel="stylesheet" href="/css/whiskeybox-styles.css"/>
 		<style type="text/css">
+			html,
+			body {
+				height: 100%;
+				/* The html and body elements cannot have any padding or margin. */
+			}
+
+			/* Wrapper for page content to push down footer */
+			#wrapper {
+				min-height: 100%;
+				height: auto;
+				/* Negative indent footer by its height */
+				margin: 0 auto -128px;
+				/* Pad bottom by footer height */
+				padding: 0 0 128px;
+			}
+
+			/* Set the fixed height of the footer here */
+			#footer {
+				height: 128px;
+				background-color: #f5f5f5;
+			}
+
+			.alert-inline {
+				border: 1px solid transparent;
+				border-radius: 4px;
+				padding: 0.20em;
+			}
+
 			header.make-me-a-princess {
 				animation: scrolling-background 8s linear 0s infinite;
 				margin-top: 0;
@@ -30,15 +61,24 @@
 				margin: 0 0.25em 0 0;
 			}
 
+			.alert li {
+				margin-left: 1em;
+			}
+
 			.form-group label {
 				color: #470079;
 			}
 
 			.form-group label:after {
 				content: ":";
+				margin-left: -0.25em;
 			}
 
-			.required:before {
+			.form-group label.has-error {
+				color: #8b0000;
+			}
+
+			.form-group label.required:before {
 				content: "*";
 			}
 
@@ -60,85 +100,135 @@
 					background-position-x: 360px;
 				}
 			}
+
+
+			@media (max-width: 767px) {
+				.navbar-inverse .container-fluid {
+					padding-right: 15px;
+				}
+
+				header h1 {
+					font-size: 45px;
+				}
+
+				footer {
+					font-size: 1.25em;
+				}
+			}
 		</style>
 	</head>
 
 	<body>
-		<header class="make-me-a-princess">
-			<nav class="navbar navbar-default">
+		<div id="wrapper">
+			<header class="make-me-a-princess">
 				<div class="container-fluid">
-					<div class="navbar-header">
-						<a class="navbar-brand" href="#">
-							&#x1f392;
-						</a>
+					<div class="row">
+						<div class="col-md-10 col-md-offset-1">
+							<h1>
+								Register Your Account
+							</h1>
+						</div>
 					</div>
 				</div>
-			</nav>
+			</header>
 
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-md-10 col-md-offset-1">
-						<h1>
-							Register Your Account
-						</h1>
+			<section class="intro make-me-a-princess add-padding">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-6 col-md-offset-3">
+							<form method="post" action="<?= route_to('register_user'); ?>" accept-charset="utf-8">
+								<fieldset>
+									<legend class="account-details text-uppercase">
+										<strong>Account Details</strong>
+										<small class="pull-right text-disclaimer text-info">
+											Your information will be kept private
+										</small>
+									</legend>
+
+									<?php if (count($errors) > 0): ?>
+										<ul class="alert alert-danger hide">
+											<h4>Please fix errors below...</h4>
+											<?php foreach ($errors as $fieldName => $message): ?>
+												<li data-field-name="user[<?= $fieldName; ?>]"><?= $message; ?></li>
+											<?php endforeach; ?>
+										</ul>
+									<?php endif; ?>
+
+									<div class="form-group">
+										<label for="user[first_name]" class="required">
+											<span><?= label('user.first_name'); ?></span>
+										</label>
+										<?php if (array_key_exists('first_name', $errors)): ?>
+											<span class="alert-inline alert-danger"><?= $errors['first_name']; ?></span>
+										<?php endif; ?>
+										<input type="text" id="user[first_name]" name="user[first_name]"
+											   class="form-control input-lg" placeholder="Will"
+											   value="<?= $user->getFirstName(); ?>" autocomplete="off"/>
+									</div>
+
+									<div class="form-group">
+										<label for="user[last_name]" class="required">
+											<span><?= label('user.last_name'); ?></span>
+										</label>
+										<?php if (array_key_exists('last_name', $errors)): ?>
+											<span class="alert-inline alert-danger"><?= $errors['last_name']; ?></span>
+										<?php endif; ?>
+										<input type="text" id="user[last_name]" name="user[last_name]"
+											   class="form-control input-lg" placeholder="Smith"
+											   value="<?= $user->getLastName(); ?>" autocomplete="off"/>
+									</div>
+
+									<div class="form-group">
+										<label for="user[email_address]" class="required">
+											<span><?= label('user.email_address'); ?></span>
+										</label>
+										<?php if (array_key_exists('email_address', $errors)): ?>
+											<span
+												class="alert-inline alert-danger"><?= $errors['email_address']; ?></span>
+										<?php endif; ?>
+										<input type="email" id="user[email_address]" name="user[email_address]"
+											   class="form-control input-lg" placeholder="will@smith.co"
+											   value="<?= $user->getEmailAddress(); ?>" autocomplete="off"/>
+									</div>
+
+									<div class="form-group">
+										<label for="user[username]" class="required">
+											<span><?= label('user.username'); ?></span>
+										</label>
+										<?php if (array_key_exists('username', $errors)): ?>
+											<span class="alert-inline alert-danger"><?= $errors['username']; ?></span>
+										<?php endif; ?>
+										<input type="text" id="user[username]" name="user[username]"
+											   class="form-control input-lg" placeholder="wsmith"
+											   value="<?= $user->getUsername(); ?>" autocomplete="off"/>
+									</div>
+
+									<div class="form-group">
+										<label for="user[password]" class="required">
+											<span><?= label('user.password'); ?></span>
+										</label>
+										<?php if (array_key_exists('password', $errors)): ?>
+											<span class="alert-inline alert-danger"><?= $errors['password']; ?></span>
+										<?php endif; ?>
+										<input type="password" id="user[password]" name="user[password]"
+											   class="form-control input-lg" placeholder="********"
+											   autocomplete="off"/>
+									</div>
+
+									<div class="form-group">
+										<button type="submit" class="btn btn-block btn-lg btn-success">
+											Register Account
+										</button>
+									</div>
+								</fieldset>
+							</form>
+						</div>
 					</div>
 				</div>
-			</div>
-		</header>
+			</section>
+		</div>
 
-		<section class="intro make-me-a-princess add-padding">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-md-6 col-md-offset-3">
-						<form method="post" action="<?= route_to('register_user'); ?>" accept-charset="utf-8">
-							<fieldset>
-								<legend class="account-details text-uppercase">
-									<strong>Account Details</strong>
-									<small class="pull-right text-disclaimer text-info">Your information will be kept
-										private</small>
-								</legend>
-								<div class="form-group required">
-									<label for="user[first_name]">First Name</label>
-									<input type="text" id="user[first_name]" name="user[first_name]"
-										   class="form-control input-lg" placeholder="Will"/>
-								</div>
-
-								<div class="form-group required">
-									<label for="user[last_name]">Last Name</label>
-									<input type="text" id="user[last_name]" name="user[last_name]"
-										   class="form-control input-lg" placeholder="Smith"/>
-								</div>
-
-								<div class="form-group required">
-									<label for="user[email_address]">Email Address</label>
-									<input type="email" id="user[email_address]" name="user[email_address]"
-										   class="form-control input-lg" placeholder="will@smith.co"/>
-								</div>
-
-								<div class="form-group required">
-									<label for="user[username]">Username</label>
-									<input type="text" id="user[username]" name="user[username]"
-										   class="form-control input-lg" autocomplete="off" placeholder="wsmith"/>
-								</div>
-
-								<div class="form-group required">
-									<label for="user[password]">Password</label>
-									<input type="password" id="user[password]" name="user[password]"
-										   class="form-control input-lg" autocomplete="off" placeholder="********"/>
-								</div>
-
-								<div class="form-group">
-									<button type="submit" class="btn btn-block btn-lg btn-success">Register Account
-									</button>
-								</div>
-							</fieldset>
-						</form>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<footer>
+		<footer id="footer">
 			<div id="footer-top">&nbsp;</div>
 			<div id="footer-bottom">
 				<small>
@@ -147,5 +237,22 @@
 				</small>
 			</div>
 		</footer>
+
+		<script type="text/javascript">
+			window.addEventListener("load", function() {
+				let errorElements = document.querySelectorAll("[data-field-name]");
+				if (errorElements.length > 0) {
+					let errorNodes = Array.from(errorElements);
+					errorNodes.forEach(function(errorNode) {
+						let dataSet = errorNode.dataset;
+						let fieldName = dataSet.fieldName;
+						let fieldElement = document.querySelector(`label[for="${fieldName}"]`);
+						if (fieldElement !== null) {
+							fieldElement.classList.add("has-error");
+						}
+					});
+				}
+			}, false);
+		</script>
 	</body>
 </html>

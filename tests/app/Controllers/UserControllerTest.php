@@ -27,7 +27,7 @@ class UserControllerTest extends CIDatabaseTestCase {
 		$this->assertTrue($response->isOK());
 	}
 
-	public function testUserRegistrationPage_returnsTheGivenHeaderText(): void {
+	public function testUserRegistrationPage_seesTheGivenHeaderText(): void {
 		$baseUrl = base_url('/user/register');
 		$response = $this->withUri($baseUrl)
 						 ->controller(UserController::class)
@@ -35,13 +35,13 @@ class UserControllerTest extends CIDatabaseTestCase {
 		$this->assertTrue($response->see('Register Your Account', 'h1'));
 	}
 
-	public function testUserRegistrationPage_returnsTheGivenHeaderText1(): void {
+	public function testUserRegistrationPage_canRegisterNewUser(): void {
 		$user = new User();
 		$user->setFirstName('Will');
 		$user->setLastName('Smith');
 		$user->setEmailAddress('will@smith.co');
 		$user->setUsername('wsmith');
-		$user->setPassword('iforgot');
+		$user->setPassword('$iforgot');
 
 		$request = $this->createMock(IncomingRequest::class);
 		$request->expects($this->once())
@@ -55,12 +55,11 @@ class UserControllerTest extends CIDatabaseTestCase {
 				->willReturn($user);
 
 		$baseUrl = base_url('/user/register');
-		$response = $this->withUri($baseUrl)
-						 ->withRequest($request)
-						 ->controller(UserController::class)
-						 ->execute('register');
+		$this->withUri($baseUrl)
+			 ->withRequest($request)
+			 ->controller(UserController::class)
+			 ->execute('register');
 
-		$this->assertTrue($response->see('Register Your Account', 'h1'));
 		$this->seeInDatabase('user', [
 			'id' => 1,
 			'email_address' => 'will@smith.co',

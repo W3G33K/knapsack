@@ -3,12 +3,16 @@
 use CodeIgniter\Entity;
 
 class User extends Entity {
+	/**
+	 * @var string[]
+	 */
 	protected $attributes = [
 		'first_name' => '',
 		'last_name' => '',
 		'email_address' => '',
 		'username' => '',
 		'password' => '',
+		'verify_password' => '',
 	];
 
 	/**
@@ -88,9 +92,8 @@ class User extends Entity {
 	 * @return $this
 	 */
 	public function setPassword(string $password): User {
-		if (trim($password) !== '') {
-			$this->attributes['password'] = password_hash($password, PASSWORD_BCRYPT);
-		}
+		$this->attributes['password'] = password_hash($password, PASSWORD_BCRYPT);
+		$this->attributes['verify_password'] = $password;
 
 		return $this;
 	}

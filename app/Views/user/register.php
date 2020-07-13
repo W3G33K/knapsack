@@ -82,6 +82,10 @@
 				content: "*";
 			}
 
+			.glyphicon {
+				margin: 0 4px;
+			}
+
 			.text-disclaimer {
 				color: #470079;
 				font-size: 50%;
@@ -136,6 +140,17 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3">
+							<?php if (count($errors) > 0): ?>
+								<div class="alert alert-danger">
+									<p>Please fix all of the errors listed below...</p>
+									<ul class="hide">
+										<?php foreach ($errors as $fieldName => $message): ?>
+											<li data-field-name="user[<?= $fieldName; ?>]"><?= $message; ?></li>
+										<?php endforeach; ?>
+									</ul>
+								</div>
+							<?php endif; ?>
+
 							<form method="post" action="<?= route_to('register_user'); ?>" accept-charset="utf-8">
 								<fieldset>
 									<legend class="account-details text-uppercase">
@@ -145,21 +160,15 @@
 										</small>
 									</legend>
 
-									<?php if (count($errors) > 0): ?>
-										<ul class="alert alert-danger hide">
-											<h4>Please fix errors below...</h4>
-											<?php foreach ($errors as $fieldName => $message): ?>
-												<li data-field-name="user[<?= $fieldName; ?>]"><?= $message; ?></li>
-											<?php endforeach; ?>
-										</ul>
-									<?php endif; ?>
-
 									<div class="form-group">
 										<label for="user[first_name]" class="required">
 											<span><?= label('user.first_name'); ?></span>
 										</label>
 										<?php if (array_key_exists('first_name', $errors)): ?>
-											<span class="alert-inline alert-danger"><?= $errors['first_name']; ?></span>
+											<span class="alert-inline alert-danger">
+												<small class="glyphicon glyphicon-alert"></small>
+												<?= $errors['first_name']; ?>
+											</span>
 										<?php endif; ?>
 										<input type="text" id="user[first_name]" name="user[first_name]"
 											   class="form-control input-lg" placeholder="Will"
@@ -171,7 +180,10 @@
 											<span><?= label('user.last_name'); ?></span>
 										</label>
 										<?php if (array_key_exists('last_name', $errors)): ?>
-											<span class="alert-inline alert-danger"><?= $errors['last_name']; ?></span>
+											<span class="alert-inline alert-danger">
+												<small class="glyphicon glyphicon-alert"></small>
+												<?= $errors['last_name']; ?>
+											</span>
 										<?php endif; ?>
 										<input type="text" id="user[last_name]" name="user[last_name]"
 											   class="form-control input-lg" placeholder="Smith"
@@ -183,8 +195,10 @@
 											<span><?= label('user.email_address'); ?></span>
 										</label>
 										<?php if (array_key_exists('email_address', $errors)): ?>
-											<span
-												class="alert-inline alert-danger"><?= $errors['email_address']; ?></span>
+											<span class="alert-inline alert-danger">
+												<small class="glyphicon glyphicon-alert"></small>
+												<?= $errors['email_address']; ?>
+											</span>
 										<?php endif; ?>
 										<input type="email" id="user[email_address]" name="user[email_address]"
 											   class="form-control input-lg" placeholder="will@smith.co"
@@ -196,7 +210,10 @@
 											<span><?= label('user.username'); ?></span>
 										</label>
 										<?php if (array_key_exists('username', $errors)): ?>
-											<span class="alert-inline alert-danger"><?= $errors['username']; ?></span>
+											<span class="alert-inline alert-danger">
+												<small class="glyphicon glyphicon-alert"></small>
+												<?= $errors['username']; ?>
+											</span>
 										<?php endif; ?>
 										<input type="text" id="user[username]" name="user[username]"
 											   class="form-control input-lg" placeholder="wsmith"
@@ -204,11 +221,15 @@
 									</div>
 
 									<div class="form-group">
-										<label for="user[password]" class="required">
+										<label for="user[password]" class="required"
+											   data-field-name="user[verify_password]">
 											<span><?= label('user.password'); ?></span>
 										</label>
-										<?php if (array_key_exists('password', $errors)): ?>
-											<span class="alert-inline alert-danger"><?= $errors['password']; ?></span>
+										<?php if (array_key_exists('verify_password', $errors)): ?>
+											<span class="alert-inline alert-danger">
+												<small class="glyphicon glyphicon-alert"></small>
+												<?= $errors['verify_password']; ?>
+											</span>
 										<?php endif; ?>
 										<input type="password" id="user[password]" name="user[password]"
 											   class="form-control input-lg" placeholder="********"
@@ -247,9 +268,11 @@
 						let dataSet = errorNode.dataset;
 						let fieldName = dataSet.fieldName;
 						let fieldElement = document.querySelector(`label[for="${fieldName}"]`);
-						if (fieldElement !== null) {
-							fieldElement.classList.add("has-error");
+						if (fieldElement === null) {
+							fieldElement = document.querySelector(`label[data-field-name="${fieldName}"]`);
 						}
+
+						fieldElement.classList.add("has-error");
 					});
 				}
 			}, false);

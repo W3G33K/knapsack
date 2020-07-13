@@ -19,11 +19,11 @@ class UserModelTest extends CIDatabaseTestCase {
 				],
 
 				[
-					'first_name' => 'The First Name field is required.',
-					'last_name' => 'The Last Name field is required.',
-					'email_address' => 'The Email Address field is required.',
-					'username' => 'The Username field is required.',
-					'password' => 'The Password field is required.',
+					'first_name' => 'First Name is required.',
+					'last_name' => 'Last Name is required.',
+					'email_address' => 'Email Address is required.',
+					'username' => 'Username is required.',
+					'verify_password' => 'Password is required.',
 				],
 			],
 
@@ -37,11 +37,11 @@ class UserModelTest extends CIDatabaseTestCase {
 				],
 
 				[
-					'first_name' => 'The First Name field is required.',
-					'last_name' => 'The Last Name field is required.',
-					'email_address' => 'The Email Address field is required.',
-					'username' => 'The Username field is required.',
-					'password' => 'The Password field is required.',
+					'first_name' => 'First Name is required.',
+					'last_name' => 'Last Name is required.',
+					'email_address' => 'Email Address is required.',
+					'username' => 'Username is required.',
+					'verify_password' => 'Password is required.',
 				],
 			],
 		];

@@ -22,4 +22,9 @@ class UserModel extends Model {
 	 * @var string
 	 */
 	protected $validationRules = 'users';
+
+	/**
+	 * @var bool
+	 */
+	protected $useTimestamps = true;
 }

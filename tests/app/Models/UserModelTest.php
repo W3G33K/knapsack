@@ -1,13 +1,14 @@
 <?php namespace App\Models;
 
 use App\Entities\User;
-use CodeIgniter\Test\CIDatabaseTestCase;
+use CodeIgniter\Database\ConnectionInterface;
+use PHPUnit\Framework\TestCase;
 
-class UserModelTest extends CIDatabaseTestCase {
+class UserModelTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providedScenarios(): array {
+	public function providerScenarios(): array {
 		return [
 			'user attempts to register without entering any fields' => [
 				[
@@ -44,29 +45,98 @@ class UserModelTest extends CIDatabaseTestCase {
 					'verify_password' => 'Password is required.',
 				],
 			],
+
+			'user attempts to register only entering first name' => [
+				[
+					'Camila',
+					'',
+					'',
+					'',
+					'',
+				],
+
+				[
+					'last_name' => 'Last Name is required.',
+					'email_address' => 'Email Address is required.',
+					'username' => 'Username is required.',
+					'verify_password' => 'Password is required.',
+				],
+			],
+
+			'user attempts to register only entering first name and last name' => [
+				[
+					'Camila',
+					'Cabello',
+					'',
+					'',
+					'',
+				],
+
+				[
+					'email_address' => 'Email Address is required.',
+					'username' => 'Username is required.',
+					'verify_password' => 'Password is required.',
+				],
+			],
+
+			'user attempts to register only entering first name, last name and email address' => [
+				[
+					'Camila',
+					'Cabello',
+					'camila@cabello.co',
+					'',
+					'',
+				],
+
+				[
+					'username' => 'Username is required.',
+					'verify_password' => 'Password is required.',
+				],
+			],
+
+			'user attempts to register only entering first name, last name, email address and username' => [
+				[
+					'Camila',
+					'Cabello',
+					'camila@cabello.co',
+					'CamilaCabello',
+					'',
+				],
+
+				[
+					'verify_password' => 'Password is required.',
+				],
+			],
+
+			'user attempts to register only entering all required fields' => [
+				[
+					'Camila',
+					'Cabello',
+					'camila@cabello.co',
+					'CamilaCabello',
+					'señorita23',
+				],
+
+				null,
+			],
 		];
 	}
 
 	/**
 	 * @param array $userData
-	 * @param array $expectedErrors
+	 * @param array|null $expectedErrors
 	 *
-	 * @dataProvider providedScenarios
+	 * @dataProvider providerScenarios
 	 */
-	public function testUserModel(array $userData, array $expectedErrors): void {
+	public function testUserModel(array $userData, ?array $expectedErrors): void {
 		list($firstName, $lastName, $emailAddress, $username, $password) = $userData;
 		$user = $this->makeUser($firstName, $lastName, $emailAddress, $username, $password);
 
-		$userModel = model('App\Models\UserModel', false);
+		$mockdb = $this->createMock(ConnectionInterface::class);
+		$userModel = new UserModel($mockdb);
 		$userModel->save($user);
 		$actualErrors = $userModel->errors();
-
 		$this->assertEquals($expectedErrors, $actualErrors);
-		$this->dontSeeInDatabase('user', [
-			'id' => 1,
-			'email_address' => $emailAddress,
-			'username' => $username,
-		]);
 	}
 
 	/**

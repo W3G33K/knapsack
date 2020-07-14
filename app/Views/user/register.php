@@ -222,7 +222,7 @@
 
 									<div class="form-group">
 										<label for="user[password]" class="required"
-											   data-field-name="user[verify_password]">
+											   data-alt-field-name="user[verify_password]">
 											<span><?= label('user.password'); ?></span>
 										</label>
 										<?php if (array_key_exists('verify_password', $errors)): ?>
@@ -269,7 +269,7 @@
 						let fieldName = dataSet.fieldName;
 						let fieldElement = document.querySelector(`label[for="${fieldName}"]`);
 						if (fieldElement === null) {
-							fieldElement = document.querySelector(`label[data-field-name="${fieldName}"]`);
+							fieldElement = document.querySelector(`label[data-alt-field-name="${fieldName}"]`);
 						}
 
 						fieldElement.classList.add("has-error");

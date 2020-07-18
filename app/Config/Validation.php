@@ -41,49 +41,26 @@ class Validation {
 		'first_name' => [
 			'label' => 'Labels.User.First_Name',
 			'rules' => 'required|alpha',
-			'errors' => [
-				'alpha' => 'Messages.Common.Invalid',
-				'required' => 'Messages.Common.Required',
-			],
 		],
 
 		'last_name' => [
 			'label' => 'Labels.User.Last_Name',
 			'rules' => 'required|alpha',
-			'errors' => [
-				'alpha' => 'Messages.Common.Invalid',
-				'required' => 'Messages.Common.Required',
-			],
 		],
 
 		'email_address' => [
 			'label' => 'Labels.User.Email_Address',
 			'rules' => 'required|valid_email|is_unique[user.email_address]',
-			'errors' => [
-				'is_unique' => 'Messages.Common.Taken',
-				'required' => 'Messages.Common.Required',
-				'valid_email' => 'Messages.Common.Invalid',
-			],
 		],
 
 		'username' => [
 			'label' => 'Labels.User.Username',
 			'rules' => 'required|alpha_numeric|min_length[3]|is_unique[user.username]',
-			'errors' => [
-				'alpha_numeric' => 'Messages.Common.Invalid',
-				'min_length' => 'Messages.Common.Invalid',
-				'is_unique' => 'Messages.Common.Taken',
-				'required' => 'Messages.Common.Required',
-			],
 		],
 
 		'verify_password' => [
 			'label' => 'Labels.User.Password',
 			'rules' => 'required|min_length[8]',
-			'errors' => [
-				'min_length' => 'Messages.Common.Invalid',
-				'required' => 'Messages.Common.Required',
-			],
 		],
 	];
 }
